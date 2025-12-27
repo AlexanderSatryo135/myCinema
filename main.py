@@ -225,8 +225,13 @@ def process_upload(judul, genre, sinopsis, video_path, poster_path, sub_path):
     eel.update_progress_ui(100, "Selesai!")
     return {"status": "success", "data": new_movie}
 
+# Fungsi untuk mematikan proses Python saat jendela ditutup
+def on_close(page, sockets):
+    if not sockets:
+        os._exit(0)
+
 # Jalankan Eel
 try:
-    eel.start('index.html', mode='chrome', size=(1280, 800))
+    eel.start('index.html', mode='chrome', size=(1280, 800), close_callback=on_close)
 except:
-    eel.start('index.html', mode='edge', size=(1280, 800))
+    eel.start('index.html', mode='edge', size=(1280, 800), close_callback=on_close)
