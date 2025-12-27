@@ -1,0 +1,164 @@
+/* ==========================================================================
+   GLOBAL.CSS
+   Variabel, Reset, Background, dan Navbar
+   ========================================================================== */
+:root {
+    --bg-black: #141414;
+    --netflix-red: #e50914;
+    --netflix-red-hover: #f40612;
+    --text-white: #ffffff;
+    --text-gray: #b3b3b3;
+    --input-bg: #333333;
+    --modal-bg: #181818;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-black);
+    color: var(--text-white);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+* { box-sizing: border-box; }
+
+/* --- BACKGROUND HITAM POLOS (UPDATED) --- */
+.app-background {
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background-color: #000000; /* Hitam Pekat */
+    z-index: -1;
+}
+
+/* --- NAVBAR --- */
+.navbar {
+    position: fixed;
+    top: 0; width: 100%; height: 70px;
+    z-index: 1000;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
+    transition: background-color 0.3s;
+}
+
+.nav-container {
+    display: flex; justify-content: space-between; align-items: center;
+    height: 100%; padding: 0 4%;
+}
+
+.nav-left, .nav-right { display: flex; align-items: center; gap: 20px; }
+.nav-left { gap: 30px; }
+
+.brand-logo { height: 30px; cursor: pointer; }
+
+.nav-links {
+    list-style: none; display: flex; gap: 20px;
+    font-size: 0.9rem; padding: 0; margin: 0;
+}
+
+.nav-links li {
+    cursor: pointer; color: var(--text-gray); transition: color 0.3s;
+}
+.nav-links li:hover, .nav-links li.active { color: var(--text-white); }
+.nav-links li.active { font-weight: bold; }
+
+/* Dropdown Menu */
+.dropdown { position: relative; display: inline-block; cursor: pointer; }
+.dropdown span { color: var(--text-gray); transition: color 0.3s; display: flex; align-items: center; gap: 5px; }
+.dropdown:hover span { color: var(--text-white); }
+
+.dropdown-content {
+    display: none; position: absolute; top: 100%; left: 0;
+    background-color: rgba(0, 0, 0, 0.95); min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5); z-index: 1001;
+    border-top: 2px solid var(--text-white); padding: 5px 0;
+}
+.dropdown-content a {
+    color: var(--text-gray); padding: 10px 16px; text-decoration: none;
+    display: block; font-size: 0.85rem; transition: 0.2s;
+}
+.dropdown-content a:hover { background-color: #333; color: var(--text-white); text-decoration: underline; }
+.dropdown:hover .dropdown-content { display: block; }
+
+.upload-menu {
+    color: var(--netflix-red) !important; font-weight: bold;
+    display: flex; align-items: center; gap: 8px; transition: transform 0.2s !important;
+}
+.upload-menu:hover { transform: scale(1.1); }
+
+/* --- SEARCH BOX NETFLIX STYLE (TRANSPARENT EXPANDABLE) --- */
+.search-box {
+    display: flex; 
+    align-items: center; 
+    background-color: transparent; /* Selalu transparan */
+    border: none; /* Tidak ada border sama sekali */
+    padding: 5px; 
+    transition: all 0.4s ease; 
+    overflow: hidden;
+}
+
+/* Saat kelas 'active' ditambahkan lewat JS */
+.search-box.active {
+    background-color: transparent; /* Tetap transparan saat aktif */
+    border: none; /* Tetap tidak ada border */
+    padding: 5px 10px; 
+}
+
+.search-box i { 
+    color: white; 
+    font-size: 1.3rem; 
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.search-box input {
+    background: transparent; 
+    border: none; 
+    color: white; 
+    outline: none; 
+    
+    /* Trik sembunyi */
+    width: 0; 
+    opacity: 0;
+    padding: 0;
+    
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: all 0.4s ease;
+}
+
+/* Saat aktif, input melebar */
+.search-box.active input {
+    width: 200px; 
+    opacity: 1;
+    padding-left: 10px; 
+}
+
+/* Profile Icon Styling (Gradient Red) */
+.profile-icon { 
+    width: 32px; 
+    height: 32px; 
+    
+    /* Default Background (Gradasi Merah - sebelum ada foto) */
+    background: linear-gradient(to bottom right, #e50914, #b20710); 
+    
+    border-radius: 4px; 
+    margin-left: 20px;
+    cursor: pointer;
+    
+    /* Agar gambar foto nanti pas di tengah */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    border: 1px solid transparent; /* Persiapan border */
+    transition: transform 0.2s;
+}
+
+.profile-icon:hover {
+    transform: scale(1.1);
+    border-color: white;
+}

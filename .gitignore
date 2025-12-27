@@ -1,0 +1,6 @@
+dist/
+build/
+*.spec
+web/movies/
+__pycache__/
+.venv/
