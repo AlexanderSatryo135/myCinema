@@ -1,165 +1,315 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>myCinema</title>
-    
-    <link rel="icon" type="image/png" href="assets/logo.png">
-    
-    <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="home.css">
-    <link rel="stylesheet" href="modals.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="icon" type="image/png" href="assets/logo.png" />
+
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="home.css" />
+    <link rel="stylesheet" href="modals.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <script type="text/javascript" src="/eel.js"></script>
-</head>
-<body>
-
+  </head>
+  <body>
     <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="nav-left">
-                <img src="assets/logo.png" alt="MYCINEMA" class="brand-logo" onclick="renderHome()">
-                <ul class="nav-links">
-                    <li class="active" onclick="renderHome()">Home</li>
-                    
-                    <li class="dropdown">
-                        <span>Genres <i class="fas fa-caret-down"></i></span>
-                        <div class="dropdown-content">
-                            <a onclick="filterByGenre('Action')">Action</a>
-                            <a onclick="filterByGenre('Adventure')">Adventure</a>
-                            <a onclick="filterByGenre('Drama')">Drama</a>
-                            <a onclick="filterByGenre('Comedy')">Comedy</a>
-                            <a onclick="filterByGenre('Horror')">Horror</a>
-                            <a onclick="filterByGenre('Sci-Fi')">Sci-Fi</a>
-                            <a onclick="filterByGenre('Anime')">Anime</a>
-                            <a onclick="filterByGenre('Football')">Football</a>
-                        </div>
-                    </li>
+      <div class="nav-container">
+        <div class="nav-left">
+          <img
+            src="assets/logo.png"
+            alt="MYCINEMA"
+            class="brand-logo"
+            onclick="renderHome()"
+          />
+          <ul class="nav-links">
+            <li class="active" onclick="renderHome()">Home</li>
 
-                    <li onclick="openModal()" class="upload-menu">
-                        <i class="fas fa-plus-circle"></i> Upload Film
-                    </li>
-                </ul>
-            </div>
-            <div class="nav-right">
-                <div class="search-box" id="searchBox">
-                    <i class="fas fa-search" onclick="toggleSearchBox()"></i>
-                    <input type="text" placeholder="Judul, orang, genre..." oninput="searchMovies(this.value)">
-                </div>
+            <li class="dropdown">
+              <span>Genres <i class="fas fa-caret-down"></i></span>
+              <div class="dropdown-content">
+                <a onclick="filterByGenre('Action')">Action</a>
+                <a onclick="filterByGenre('Adventure')">Adventure</a>
+                <a onclick="filterByGenre('Drama')">Drama</a>
+                <a onclick="filterByGenre('Comedy')">Comedy</a>
+                <a onclick="filterByGenre('Horror')">Horror</a>
+                <a onclick="filterByGenre('Sci-Fi')">Sci-Fi</a>
+                <a onclick="filterByGenre('Anime')">Anime</a>
+                <a onclick="filterByGenre('Football')">Football</a>
+              </div>
+            </li>
 
-                <div class="profile-icon" onclick="document.getElementById('profileUpload').click()"></div>
-                <input type="file" id="profileUpload" style="display: none;" accept="image/*" onchange="changeProfileImage(this)">
-            </div>
+            <li onclick="openModal()" class="upload-menu">
+              <i class="fas fa-plus-circle"></i> Upload Film
+            </li>
+          </ul>
         </div>
+        <div class="nav-right">
+          <div class="search-box" id="searchBox">
+            <i class="fas fa-search" onclick="toggleSearchBox()"></i>
+            <input
+              type="text"
+              placeholder="Judul, orang, genre..."
+              oninput="searchMovies(this.value)"
+            />
+          </div>
+
+          <div
+            class="profile-icon"
+            onclick="document.getElementById('profileUpload').click()"
+          ></div>
+          <input
+            type="file"
+            id="profileUpload"
+            style="display: none"
+            accept="image/*"
+            onchange="changeProfileImage(this)"
+          />
+        </div>
+      </div>
     </nav>
 
     <header class="hero-billboard">
-        <img src="assets/featured3.jpg" alt="Featured Movie" class="hero-img">
-        <div class="hero-overlay-gradient"></div>
+      <img src="assets/featured3.jpg" alt="Featured Movie" class="hero-img" />
+      <div class="hero-overlay-gradient"></div>
     </header>
 
     <div class="app-background"></div>
 
     <main class="content-rows">
-        <div id="mainContentArea"></div>
+      <div id="mainContentArea"></div>
     </main>
 
     <div id="playerOverlay" class="overlay-backdrop">
-        <div class="netflix-modal">
-            <div class="modal-video-container">
-                <span class="close-modal-btn" onclick="closePlayer()">&times;</span>
-                <video id="mainVideoPlayer" crossOrigin="anonymous" onclick="togglePlay()" autoplay muted>
-                    <source src="" type="video/mp4">
-                    <track id="playerSubtitle" label="Bahasa Indonesia" kind="subtitles" srclang="id" src="">
-                </video>
-                <div class="video-shadow-overlay"></div>
-                <div class="modal-hero-content">
-                    <h1 id="playerTitle">Judul Film</h1>
-                    <div class="modal-buttons">
-                        <button class="btn-play-white" onclick="playFullScreen()"><i class="fas fa-play"></i> Putar</button>
-                        <button class="btn-circle" onclick="toggleMute()" id="btnMute" title="Suara ON/OFF"><i class="fas fa-volume-up"></i></button>
-                        <button class="btn-circle" onclick="toggleSubtitle()" title="Subtitle ON/OFF"><i class="fas fa-closed-captioning"></i></button>
-                        <button class="btn-circle" onclick="openEditModal()" title="Edit Film"><i class="fas fa-pencil-alt"></i></button>
-                    </div>
-                </div>
+      <div class="netflix-modal">
+        <div class="modal-video-container">
+          <span class="close-modal-btn" onclick="closePlayer()">&times;</span>
+          <video
+            id="mainVideoPlayer"
+            crossorigin="anonymous"
+            onclick="togglePlay()"
+            autoplay
+            muted
+          >
+            <source src="" type="video/mp4" />
+            <track
+              id="playerSubtitle"
+              label="Bahasa Indonesia"
+              kind="subtitles"
+              srclang="id"
+              src=""
+            />
+          </video>
+          <div class="video-shadow-overlay"></div>
+          <div class="modal-hero-content">
+            <h1 id="playerTitle">Judul Film</h1>
+            <div class="modal-buttons">
+              <button class="btn-play-white" onclick="playFullScreen()">
+                <i class="fas fa-play"></i> Putar
+              </button>
+              <button
+                class="btn-circle"
+                onclick="toggleMute()"
+                id="btnMute"
+                title="Suara ON/OFF"
+              >
+                <i class="fas fa-volume-up"></i>
+              </button>
+              <button
+                class="btn-circle"
+                onclick="toggleSubtitle()"
+                title="Subtitle ON/OFF"
+              >
+                <i class="fas fa-closed-captioning"></i>
+              </button>
+              <button
+                class="btn-circle"
+                onclick="openEditModal()"
+                title="Edit Film"
+              >
+                <i class="fas fa-pencil-alt"></i>
+              </button>
             </div>
-            <div class="modal-info-section">
-                <div class="info-left">
-                    <div class="meta-tags">
-                        <span class="match-score">98% Match</span>
-                        <span class="year-tag">2025</span>
-                        <span class="hd-tag">HD</span>
-                    </div>
-                    <p id="playerSynopsis">Sinopsis film akan muncul di sini...</p>
-                </div>
-                <div class="info-right">
-                    <p><span class="gray-label">Genre:</span> <span id="textGenre" class="white-text">Action</span></p>
-                    <p><span class="gray-label">Kualitas:</span> <span class="white-text">Best Available</span></p>
-                </div>
-            </div>
+          </div>
         </div>
+        <div class="modal-info-section">
+          <div class="info-left">
+            <div class="meta-tags">
+              <span class="match-score">98% Match</span>
+              <span class="year-tag">2025</span>
+              <span class="hd-tag">HD</span>
+            </div>
+            <p id="playerSynopsis">Sinopsis film akan muncul di sini...</p>
+          </div>
+          <div class="info-right">
+            <p>
+              <span class="gray-label">Genre:</span>
+              <span id="textGenre" class="white-text">Action</span>
+            </p>
+            <p>
+              <span class="gray-label">Kualitas:</span>
+              <span class="white-text">Best Available</span>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="uploadModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2>Tambah Film Baru</h2>
-            <form id="uploadForm">
-                <div class="form-group"><label>Judul Film</label><input type="text" id="inTitle" required></div>
-                <div class="form-group">
-                    <label>Genre</label>
-                    <select id="inGenre">
-                        <option>Action</option>
-                        <option>Adventure</option>
-                        <option>Drama</option>
-                        <option>Comedy</option>
-                        <option>Horror</option>
-                        <option>Sci-Fi</option>
-                        <option>Anime</option>
-                        <option>Football</option>
-                    </select>
-                </div>
-                <div class="form-group"><label>Sinopsis</label><textarea id="inSynopsis" rows="2"></textarea></div>
-                <div class="form-row">
-                    <div class="form-group half"><label>Poster</label><div class="file-input-group"><input type="text" id="pathPoster" readonly><button type="button" onclick="pickFile('image')" class="btn-small">Browse</button></div></div>
-                    <div class="form-group half"><label>Video</label><div class="file-input-group"><input type="text" id="pathVideo" readonly><button type="button" onclick="pickFile('video')" class="btn-small">Browse</button></div></div>
-                </div>
-                <div class="form-group"><label>Subtitle (Opsional)</label><div class="file-input-group"><input type="text" id="pathSub" placeholder="Auto-detect Indo..." readonly><button type="button" onclick="pickFile('sub')" class="btn-small">Browse</button></div></div>
-                <div class="progress-container" id="progressBox" style="display: none;"><div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar" style="width: 0%;"></div></div><p class="progress-text" id="progressText">0%</p></div>
-                <button type="button" onclick="doUpload()" class="btn btn-primary full-width" id="btnUpload">Mulai Upload</button>
-            </form>
-        </div>
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2>Tambah Film Baru</h2>
+        <form id="uploadForm">
+          <div class="form-group">
+            <label>Judul Film</label><input type="text" id="inTitle" required />
+          </div>
+          <div class="form-group">
+            <label>Genre</label>
+            <select id="inGenre">
+              <option>Action</option>
+              <option>Adventure</option>
+              <option>Drama</option>
+              <option>Comedy</option>
+              <option>Horror</option>
+              <option>Sci-Fi</option>
+              <option>Anime</option>
+              <option>Football</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Sinopsis</label
+            ><textarea id="inSynopsis" rows="2"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group half">
+              <label>Poster</label>
+              <div class="file-input-group">
+                <input type="text" id="pathPoster" readonly /><button
+                  type="button"
+                  onclick="pickFile('image')"
+                  class="btn-small"
+                >
+                  Browse
+                </button>
+              </div>
+            </div>
+            <div class="form-group half">
+              <label>Video</label>
+              <div class="file-input-group">
+                <input type="text" id="pathVideo" readonly /><button
+                  type="button"
+                  onclick="pickFile('video')"
+                  class="btn-small"
+                >
+                  Browse
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Subtitle (Opsional)</label>
+            <div class="file-input-group">
+              <input
+                type="text"
+                id="pathSub"
+                placeholder="Auto-detect Indo..."
+                readonly
+              /><button
+                type="button"
+                onclick="pickFile('sub')"
+                class="btn-small"
+              >
+                Browse
+              </button>
+            </div>
+          </div>
+          <div
+            class="progress-container"
+            id="progressBox"
+            style="display: none"
+          >
+            <div class="progress-bar-bg">
+              <div
+                class="progress-bar-fill"
+                id="progressBar"
+                style="width: 0%"
+              ></div>
+            </div>
+            <p class="progress-text" id="progressText">0%</p>
+          </div>
+          <button
+            type="button"
+            onclick="doUpload()"
+            class="btn btn-primary full-width"
+            id="btnUpload"
+          >
+            Mulai Upload
+          </button>
+        </form>
+      </div>
     </div>
 
-    <div id="editModal" class="modal-overlay" style="z-index: 3000;">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeEditModal()">&times;</span>
-            <h2>Edit Film</h2>
-            <form id="editForm">
-                <input type="hidden" id="editId">
-                <div class="form-group"><label>Judul Film</label><input type="text" id="editTitle"></div>
-                <div class="form-group">
-                    <label>Genre</label>
-                    <select id="editGenre">
-                        <option>Action</option>
-                        <option>Adventure</option>
-                        <option>Drama</option>
-                        <option>Comedy</option>
-                        <option>Horror</option>
-                        <option>Sci-Fi</option>
-                        <option>Anime</option>
-                        <option>Football</option>
-                    </select>
-                </div>
-                <div class="form-group"><label>Sinopsis</label><textarea id="editSynopsis" rows="4"></textarea></div>
-                <div class="form-row">
-                    <button type="button" onclick="saveEdit()" class="btn btn-primary half">Simpan</button>
-                    <button type="button" onclick="deleteMovie()" class="btn btn-primary half" style="background-color: #b20710;">Hapus</button>
-                </div>
-            </form>
-        </div>
+    <div id="editModal" class="modal-overlay" style="z-index: 3000">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeEditModal()">&times;</span>
+        <h2>Edit Film</h2>
+        <form id="editForm">
+          <input type="hidden" id="editId" />
+          <div class="form-group">
+            <label>Judul Film</label><input type="text" id="editTitle" />
+          </div>
+          <div class="form-group">
+            <label>Genre</label>
+            <select id="editGenre">
+              <option>Action</option>
+              <option>Adventure</option>
+              <option>Drama</option>
+              <option>Comedy</option>
+              <option>Horror</option>
+              <option>Sci-Fi</option>
+              <option>Anime</option>
+              <option>Football</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Sinopsis</label
+            ><textarea id="editSynopsis" rows="4"></textarea>
+          </div>
+          <div class="form-row" style="display: flex; gap: 10px">
+            <button
+              type="button"
+              onclick="saveEdit()"
+              class="btn btn-primary"
+              style="flex: 1"
+            >
+              Simpan
+            </button>
+            <button
+              type="button"
+              id="btnRescanSub"
+              onclick="rescanSpecificSub()"
+              class="btn"
+              style="flex: 1.5; background-color: #007bff; color: white"
+            >
+              Scan Ulang Subtitle
+            </button>
+            <button
+              type="button"
+              onclick="deleteMovie()"
+              class="btn"
+              style="flex: 1; background-color: #b20710; color: white"
+            >
+              Hapus
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
